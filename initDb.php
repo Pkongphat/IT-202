@@ -21,7 +21,7 @@ try{
 	echo "<br>" . $r . "<br>";
 //Note backticks ` for table/column names and single-quotes ' for string value
 //hint: we don't need to specify `id` since it's auto increment (note this in the next steps)
-        $insert_query = "INSERT INTO `TestUsers`(`username`, `pin`) VALUES ('JohnDoe', 1234)$
+        $insert_query = "INSERT INTO `TestUsers`(`username`, `pin`) VALUES (:username, :pin)";
         $stmt = $db->prepare($insert_query);
         $newUser = "JohnDoe";
         $newPin = 1234;
@@ -39,3 +39,18 @@ catch(Exception $e){
 	exit("Something went wrong");
 }
 ?>
+
+
+
+<!DOCTYPE html>
+<html>
+<body background="https://i.chzbgr.com/full/8104339968/h329B9231/">
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<h1></h1>
+
+</body>
+</html>
