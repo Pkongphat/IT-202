@@ -9,7 +9,7 @@ var myVariable;
 let myOtherVariable;
 
 //myVariable = prompt("What's your name?");
-//alert("Hello, " , myVariable);
+//alert("Hello, " + myVariable);
 
 let myNum = 0;
 for(let i = 0; i < 10; i++){
@@ -21,11 +21,13 @@ for(let i = 0; i < 10; i++){
 //alert("My Num is 1: " + (myNum== 1) + "\nMy Num: " + myNum);
 console.log("My Num is 1: " + (myNum== 1) + "\nMy Num: " + myNum);
 
+let myParagraph = document.getElementById("myParagraph");
+console.log(myParagraph);
 
 </script>
 </head>
 
-<body>
+<body onload = "pageLoaded();">
 <!-- html content -->
 <p>IT loaded, yay!</p>
 </body>
