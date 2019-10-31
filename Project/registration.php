@@ -28,7 +28,7 @@ if($password1 == $password2){
 </head>
 <body background = "http://www.glittergraphics.org/img/60/606408/fist-wallpaper.jpg"><?php getName();?>
 <form method="POST" action="#">
-<input name="name" type="text" placeholder="Enter your username"/>
+<input name="name" type="text" placeholder="Enter your username" required/>
 <!--new content-->
 <input name="password1" type="password" placeholder="Enter a password"required/>
 <input name="password2" type="password" placeholder="Comfrim password"required/>

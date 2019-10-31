@@ -37,11 +37,11 @@ $passwords = array(
 <p1>Works</p1>
 <form method="POST" action="#">
 
-<input name="username" type="text" placeholder="Enter your username"/>
+<input name="username" type="text" placeholder="Enter your username"required/>
 
 <!--new content-->
 
-<input name="password" type="password" placeholder="Enter your password"/>
+<input name="password" type="password" placeholder="Enter your password"required/>
 
 <!-- this is a comment -->
 
