@@ -10,10 +10,18 @@ $conn_string = "mysql:host=$host;dbname=$database;charset=utf8mb4";
 try{
 	$db = new PDO($conn_string, $username, $password);
 	echo nl2br ("\nConnected\n");
-	$query = "create table if not exists `TestUsers`(
+	$query = "create table if not exists `Users`(
 		`id` int auto_increment not null,
 		`username` varchar(30) not null unique,
-		`pin` int default 0,
+		`password` varchar(30) not null unique,
+		`email` varchar(60) not null unique,
+		`win` int default 0, 
+		`lost` int default 0, 
+		`exp` int default 0, 
+		`str` int default 1, 
+		`hp` int default 100, 
+		`points` int default 0,
+
 		PRIMARY KEY (`id`)
 		) CHARACTER SET utf8 COLLATE utf8_general_ci";
 	$stmt = $db->prepare($query);
@@ -21,13 +29,20 @@ try{
 	echo "<br>" . $r . "<br>";
 //Note backticks ` for table/column names and single-quotes ' for string value
 //hint: we don't need to specify `id` since it's auto increment (note this in the next steps)
-        $insert_query = "INSERT INTO `TestUsers`(`username`, `pin`) VALUES (:username, :pin)";
+        $insert_query = "INSERT INTO `Users`(`username`, `password`, `email`, `win`, `lost`, `exp`, `str`, `hp`, `points`) VALUES (:username, :password, :email, :win, :lost, :exp, :str, :hp, :points)";
         $stmt = $db->prepare($insert_query);
-        $newUser = "tom";
-        $newPin = 5311;
+        $newUser = "b";
+        $newPin = "1";
+	$newEmail = "1@gmail.com";
+	$win = 0;
+	$lost = 0;
+	$exp = 0;
+	$str = 1;
+	$hp = 100;
+	$points = 0;
 //DB Insert query
 //Bind values
-        $r = $stmt->execute(array("username"=> $newUser, ":pin"=>$newPin));//hint: something is required here
+        $r = $stmt->execute(array("username"=> $newUser, ":password"=>$newPin, ":email"=> $newEmail, "win"=> $win, "lost"=> $lost, "exp"=> $exp, "str"=> $str, "hp"=> $hp, "points"=> $points));//hint: something is required here
 	print_r($stmt->errorInfo());
 	echo "<br>" . ($r>0?"Insert Successful":"Insert Failed") . "<br>";
 }
