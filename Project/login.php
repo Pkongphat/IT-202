@@ -1,5 +1,7 @@
 <?php
-session_start();
+unset($_SESSION["username"]);
+session_destroy();
+
 function getName(){
 	if(isset($_POST['name'])){
 		$name = $_POST['name'];
@@ -30,12 +32,19 @@ if(isset($_POST['password1'])){
 			if(ele){
 				let registration= document.getElementById('registration');
 				registration.style.display="none";
+
+				let leaders = document.getElementById('leaders');
+				leaders.style.display="none";
+
 				ele.style.display = "block";
 			}
 		}
 		else{
 			let registration = document.getElementById('registration');
 			registration.style.display = "block";
+
+			let leaders = document.getElementById('leaders');
+			leaders.style.display="block";
 		}
 	}
 </script>
@@ -44,10 +53,15 @@ if(isset($_POST['password1'])){
 	<header>
 		<nav> 
 			<a href="https://web.njit.edu/~pk398/IT-202/Project/registration.php">Registration Here</a> |
+			<a href="https://web.njit.edu/~pk398/IT-202/Project/leaders.php">Leaderboards</a> |
 			<!--Create route for registration-->
 		</nav>
 	</header>
+<?php
+//unset($_SESSION["username"]);
+//session_destroy();
 
+?>
 <form method="POST" action="#">
 <input name="name" type="text" placeholder="Enter your username" required/>
 <br>
@@ -70,6 +84,8 @@ if(isset($_POST['password1'])){
 
 
 <?php
+//unset($_SESSION["username"]);
+//session_destroy();
 
 
 function callSql($name, $password1){
@@ -99,6 +115,7 @@ try{
 	//echo var_export($results, true);
 	if($results['password'] == $password){
 	echo "<br>Welcome<br>";
+	session_start();
 	$_SESSION["username"] = $name;
 	//echo "<br>".$_SESSION["username"]."<br>";
 	header("Location: home.php");// add a user=$name

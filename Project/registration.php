@@ -25,7 +25,7 @@ if(isset($password1) && isset($password2)){
 if($password1 == $password2){
                 
 				$name = $_POST['name'];
-				echo "<br><pre>" . "Name : "  . $name . "<br>" . "Password : " . $password1 . "</pre><br>";
+				//echo "<br><pre>" . "Name : "  . $name . "<br>" . "Password : " . $password1 . "</pre><br>";
 				
 				insertSql($name, $password1, $email);
 
@@ -104,7 +104,7 @@ try{
 	$lost = 0;
 	$exp = 0;
 	$str = 1;
-	$hp = 100;
+	$hp = 20;
 	$points = 0;
 
         $r = $stmt->execute(array("username"=> $username, ":email"=>$email, ":password"=>$password, "win"=> $win, "lost"=> $lost, "exp"=> $exp, "str"=> $str, "hp"=> $hp, "points"=> $points));//hint: something$
@@ -112,7 +112,7 @@ try{
         echo "<br>" . ($r>0?"Insert Successful":"Insert Failed") . "<br>";
 }
 catch(Exception $e){
-        echo $e->getMessage();
+        //echo $e->getMessage();
         exit("<br>Something went wrong");
 }
 

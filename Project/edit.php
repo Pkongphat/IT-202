@@ -9,10 +9,10 @@
 <html>
 	<head>
 		<style>
-			#results{color:white; font-size:32px;}
+			#results{color:blue; font-size:32px;}
 		</style>
 		<h1>
-			<font color="white" style="font-weight:bold">Home Page</font>
+			<font color="blue" style="font-weight:bold">Edit Charater</font>
 		</h1>
 		<script>
 			function queryParam(){
@@ -30,9 +30,6 @@
 
 						let leaders = document.getElementById('leaders');
 						leaders.style.display="none";
-
-						let fight = document.getElementById('fight');
-						fight.style.display="none";
 
 						let logout = document.getElementById('logout');
 						logout.style.display="none";
@@ -53,12 +50,11 @@
 
 					let logout = document.getElementById('logout');
 					logout.style.display = "block";
-					ele.style.display = "block";
 				}
 			}
 		</script>
 	</head>
-	<body background = "https://images.greenmangaming.com/d85c0236c90f47c6a801b0d83597d520/f0a643ef6ea34f7fbae35a5ce7fdfe25.jpg">		
+	<body background = "https://cdn11.bigcommerce.com/s-h28kc1m5v1/images/stencil/1280x1280/products/168/642/Power_Up__07990.1511429694.jpg?c=2&imbypass=on">		
 		<nav> 
 			<a href="https://web.njit.edu/~pk398/IT-202/Project/home.php">Home</a> |
 
@@ -74,7 +70,9 @@
 		</header>
 
 		<form method="POST" action="#">
-
+			<input name ="strup" type="text" placeholder="Increase Power by">
+			<input name ="hpup" type="text" placeholder="Increase Health by">
+			<input type="submit" value="Power up"/>
 			<!-- this is a comment -->
 			</select>
 			<!--end new content-->
@@ -85,6 +83,7 @@
 
 
 <?php
+	echo "<div id='results'>";
 	ini_set('display_errors',1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
@@ -94,23 +93,59 @@
 	$db = new PDO($conn_string, $username, $password);
 
 	$name = $_SESSION["username"];
+	
+
 	$stmt = $db->prepare("select * from `Users` where username = :username LIMIT 1");
 	$stmt->execute(array(":username"=>$name));
 	$results = $stmt->fetch(PDO::FETCH_ASSOC);
+	$points = $results['points'];
+	$str= $results['str'];
+	$hp= $results['hp'];
+
+	//test
+	$strup = 0;
+	$hpup = 0;
+	if(isset($_POST['strup']) && is_numeric($_POST['strup'])){
+		$strup = $_POST['strup'];
+		//echo "<br>working1<br>";
+	}
+
+	if(isset($_POST['hpup']) && is_numeric($_POST['hpup'])){
+		$hpup = $_POST['hpup'];
+		//echo "<br>working2<br>";
+	}
+
+	if(isset($_POST['hpup']) || isset($_POST['strup'])){
+
+	if(($hpup + $strup) <= $points){
+		$stmt = $db->prepare("UPDATE `Users` SET hp = :idset WHERE username = :id");
+		$stmt->execute(array(":idset"=>(($hpup * 10) + $hp), ":id"=>$name));
+
+		$stmt = $db->prepare("UPDATE `Users` SET str = :idset WHERE username = :id");
+		$stmt->execute(array(":idset"=>($strup + $str), ":id"=>$name));
+
+		$holder = ($points - ($hpup + $strup));
+
+		$stmt = $db->prepare("UPDATE `Users` SET points = :idset WHERE username = :id");
+		$stmt->execute(array(":idset"=>$holder, ":id"=>$name));
+		//echo "<br>working3<br>";
+	}else{
+
+	echo "<br>You don't have enough points!<br>";
+	}
+	}
 	//echo $stmt->errorInfo();
 	
 	//echo var_export($results,true);
-	echo "<div id='results'>";
+
+
+	$stmt = $db->prepare("select * from `Users` where username = :username LIMIT 1");
+	$stmt->execute(array(":username"=>$name));
+	$results = $stmt->fetch(PDO::FETCH_ASSOC);
+
 	echo "<strong>$name <strong><br>";
 	$win = $results['win'];
 	$lost = $results['lost'];
-
-	if(($results['win'] + $results['lost']) != 0){
-		$ratio = $results['win'] / ($results['win'] + $results['lost']);
-	}else{
-		$ratio = 0;
-	}
-
 	$exp= $results['exp'];
 	$str= $results['str'];
 	$hp= $results['hp'];	
@@ -118,7 +153,6 @@
 	
 	echo "<strong>			Win : $win<strong><br>";
 	echo "<strong>			Lost : $lost<strong><br>";
-	echo "<strong>			Ratio : $ratio<strong><br>";
 	echo "<strong>			Experience : $exp<strong><br>";
 	echo "<strong>			Strength : $str<strong><br>";
 	echo "<strong>			Max Health : $hp<strong><br>";
